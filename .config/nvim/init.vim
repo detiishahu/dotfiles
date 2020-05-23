@@ -23,7 +23,7 @@ set cursorline
 call plug#begin('~/.config/nvim/plugged')
     " Autocomplete
     " Plug 'ycm-core/YouCompleteMe'
-    Plug 'neoclide/coc.nvim'
+    Plug 'neoclide/coc.nvim', {'branch': 'release'}
     " Plug 'lyuts/vim-rtags'
 
 
@@ -43,10 +43,10 @@ call plug#begin('~/.config/nvim/plugged')
     Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
-"colorscheme gruvbox
+colorscheme gruvbox
+"colorscheme codedark
 set background=dark
 
-colorscheme codedark
 let g:airline_theme='codedark'
 let g:airline_powerline_fonts = 1
 if executable('rg')
@@ -70,28 +70,34 @@ endif
 xnoremap K :move '<-2<CR>gv-gv
 xnoremap J :move '>+1<CR>gv-gv
 
+" COC-CONFIG----
+"Use tab for trigger completion with characters ahead and navigate.
+" NOTE: Use command ':verbose imap <tab>' to make sure tab is not mapped by
+" other plugin before putting this into your config.
+inoremap <silent><expr> <TAB>
+       \ pumvisible() ? "\<C-n>" :
+       \ <SID>check_back_space() ? "\<TAB>" :
+       \ coc#refresh()
+inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
 
 function! s:check_back_space() abort
     let col = col('.') - 1
-    return !col || getline('.')[col - 1] =~# '\s'
+    return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-fun! GoCoc()
-    inoremap <buffer> <silent><expr> <TAB>
-                        \ pumvisible() ? "\<C-n>" :
-                        \ <SID>check_back_space() ? "\<TAB>" :
-                        \ coc#refresh()
+" Use <c-space> to trigger completion.
+inoremap <silent><expr> <c-space> coc#refresh()
 
-    inoremap <buffer> <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<C-h>"
-    inoremap <buffer> <silent><expr> <C-space> coc#refresh()
+" GoTo code navigation.
+nmap<buffer> <silent> gd <Plug>(coc-definition)
+nmap<buffer> <silent> gy <Plug>(coc-type-definition)
+nmap<buffer> <silent> gi <Plug>(coc-implementation)
+nmap<buffer> <silent> gr <Plug>(coc-references)
 
-    " GoTo code navigation.
-    nmap<buffer> <silent> gd <Plug>(coc-definition)
-    nmap<buffer> <silent> gy <Plug>(coc-type-definition)
-    nmap<buffer> <silent> gi <Plug>(coc-implementation)
-    nmap<buffer> <silent> gr <Plug>(coc-references)
-endfun
+" Symbol renaming
+nmap <leader>rn <Plug>(coc-rename)
 
 " Formatting selected code.
 xmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+
