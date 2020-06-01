@@ -24,6 +24,7 @@ call plug#begin('~/.config/nvim/plugged')
     " Autocomplete
     " Plug 'ycm-core/YouCompleteMe'
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
+    Plug 'jiangmiao/auto-pairs'
     " Plug 'lyuts/vim-rtags'
 
 
@@ -37,17 +38,18 @@ call plug#begin('~/.config/nvim/plugged')
     
     " Themes
     Plug 'powerline/fonts'
-    Plug 'morhetz/gruvbox'
+    Plug 'gruvbox-community/gruvbox'
     Plug 'tomasiser/vim-code-dark'
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
+let g:gruvbox_contrast_dark='hard'
 colorscheme gruvbox
 "colorscheme codedark
 set background=dark
 
-let g:airline_theme='codedark'
+let g:airline_theme='gruvbox'
 let g:airline_powerline_fonts = 1
 if executable('rg')
     let g:rg_derive_root='true'
@@ -60,11 +62,15 @@ let g:netrw_browse_split = 2
 let g:netrw_banner = 0
 let g:netrw_winsize = 25
 
+let g:python3_host_prog = '/usr/bin/python3'
 " This fixed the Ugly highlightin when jumping on VIM
 " but does NOT seem to work for neovim.
 if &term =~ '256color'
     set t_ut=
 endif
+
+" NERDTREE
+map <C-n> :NERDTreeToggle<CR>
 
 " Move highlighted lines UP or DOWN
 xnoremap K :move '<-2<CR>gv-gv
